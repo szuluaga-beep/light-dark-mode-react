@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from 'react'
+import ReactSwitch from 'react-switch'
+import './App.css'
+import Child from './Child'
 
-function App() {
+export const themeContext = createContext(null)
+
+const App = () => {
+  const [theme, setTheme] = useState("dark")
+  const toggleTheme = () => {
+    setTheme(theme=>theme==="dark"?"light":"dark")
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <themeContext.Provider value={theme}>
+
+      <div className='contenedor' id={theme}>
+        <Child/>
+        <ReactSwitch
+          onChange={toggleTheme}
+          checked={theme === "light"}
+          checkedIcon={false}
+          uncheckedIcon={false}
+        />
+      </div>
+    </themeContext.Provider>
+  )
 }
 
-export default App;
+export default App
